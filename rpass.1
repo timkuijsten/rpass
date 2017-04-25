@@ -1,0 +1,55 @@
+.Dd Apr 25, 2017
+.Dt RPASS 1
+.Os
+.Sh NAME
+.Nm rpass
+.Nd strong password generator for humans
+.Sh SYNOPSIS
+.Nm
+.Op Fl h
+.Op Ar bitlen
+.Sh DESCRIPTION
+.Nm
+is a strong password generator for human beings. The generated passwords are both visually and phonetically unambiguous. There is no alternation between keyboards when typing the password. And blanks can be inserted at arbitrary places to enhance visual representation.
+.Pp
+.Bl -tag -width Ds
+.It Fl h
+Print usage.
+.It Ar bitlen
+Use a key space of the specified bit length.
+.El
+.Pp
+By default
+.Nm
+uses a 40 bit key space.
+.Sh EXIT STATUS
+.Ex -std
+.Sh EXAMPLES
+.Pp
+Random password from the default key space:
+.Bd -literal -offset 4n
+$ rpass
+jikmus xuzjex
+.Ed
+.Pp
+Random password from a 60 bit key space:
+.Bd -literal -offset 4n
+$ rpass 60
+loltuk zahxok takrep
+.Ed
+.Sh BUGS
+.Nm
+relies on strong storage of the password, i.e.
+.Xr bcrypt 3
+with sufficient rounds. If your password is going to be stored using a weaker hashing mechanism, use a bigger key space. E.g. say you want to generate a password you can use for one year and is stored using
+.Xr sha256 1 .
+Furthermore your adversary has $20,000.00 to spend. According to
+.Dq 8x Nvidia GTX 1080 Hashcat Benchmarks
+as of 2016 the adversary can try 230 billion hashes per second, this makes that you'll need a key space of 64 bit (hashes per second * 3600 * 24 * 365 * 2).
+.Sh SEE ALSO
+.Xr sha256 1 ,
+.Xr bcrypt 3 ,
+.Lk https://gist.github.com/epixoip/a83d38f412b4737e99bbef804a270c40 8x Nvidia GTX 1080 Hashcat Benchmarks
+.Sh AUTHORS
+.An -nosplit
+.An Tim Kuijsten Aq Mt tim@netsend.nl

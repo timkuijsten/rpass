@@ -14,6 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include <libgen.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,25 +29,42 @@ static const char secon[] = "aeiou"; /* vowels, 2.3 bpc */
 static const char third[] = "fhjklmnprstxz"; /* drop b, c, d, g, q, v, w,
 					      * y = 3.7 bpc */
 
+static const char *progname;
+
+static void
+printusage(int d)
+{
+	dprintf(d, "usage: %s [bitlen]\n", progname);
+}
+
 int
 main(int argc, char **argv)
 {
 	double bits, fbpc, sbpc, tbpc;
 	int c;
 
+	if ((progname = basename(argv[0])) == NULL) {
+		perror("basename");
+		exit(1);
+	}
+
 	while ((c = getopt(argc, argv, "h")) != -1)
 		switch (c) {
 		case 'h':
-		case '?':
-			fputs("usage: rpass [bitlen]\n", stdout);
+			printusage(STDOUT_FILENO);
 			exit(0);
 		default:
-			fputs("usage: rpass [bitlen]\n", stderr);
+			printusage(STDERR_FILENO);
 			exit(1);
 		}
 
 	argc -= optind;
 	argv += optind;
+
+	if (argc > 1) {
+		printusage(STDERR_FILENO);
+		exit(1);
+	}
 
 	fbpc = log2(sizeof first - 1);
 	sbpc = log2(sizeof secon - 1);
@@ -59,7 +77,7 @@ main(int argc, char **argv)
 	}
 
 	if (bits <= 0) {
-		fputs("usage: rpass [bitlen]\n", stderr);
+		printusage(STDERR_FILENO);
 		exit(1);
 	}
 

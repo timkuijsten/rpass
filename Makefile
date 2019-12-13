@@ -1,19 +1,29 @@
-PROG=   rpass
+PROG=	rpass
 
-USRDIR=  /usr/local
-BINDIR=  $(USRDIR)/bin
-MANDIR=  $(USRDIR)/man
+PREFIX	= /usr/local
+BINDIR	= $(PREFIX)/bin
+MANDIR	= $(PREFIX)/man
+
+CFLAGS	+= -Wall -Wextra -pedantic-errors
+
+INSTALL_BIN	= install -m 0555
+INSTALL_MAN	= install -m 0444
 
 INSTALL_DIR=  install -dm 755
 INSTALL_BIN=  install -m 555
 INSTALL_MAN=  install -m 444
 
 rpass: rpass.c
-	cc -Wall -std=c99 -o rpass rpass.c -lm
+	${CC} ${CFLAGS} rpass.c -o $@ -lm
 
-.PHONY: clean install
+rpass.1.html:  rpass.1
+	mandoc -T html -O style=man.css rpass.1 > rpass.1.html
+
+.PHONY: manhtml clean install
+manhtml: rpass.1.html
+
 clean:
-	rm -f ${OBJS} ${COMPAT} rpass
+	rm -f rpass rpass.1.html
 
 install:
 	${INSTALL_DIR} ${DESTDIR}${BINDIR}

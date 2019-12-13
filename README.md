@@ -1,12 +1,32 @@
 # rpass
 
-Strong password generator for humans.
+## Strong password generator for humans
 
 Features:
 * Both visually and phonetically unambiguous
 * No shift or alternate keyboard needed when typing
 * Blanks can be inserted at arbitrary places to enhance visual representation
 
+## Requirements
+
+Build requirements:
+* A C89 compiler
+
+Run-time requirements:
+* Any POSIX-compliant system that supports [arc4random_uniform(3)]. I.e. OpenBSD
+  or macOS.
+
+## Install on OpenBSD
+```sh
+$ make
+$ doas make install
+```
+
+## Install on macOS
+```sh
+$ make
+$ sudo make install
+```
 
 ## Examples
 Random password from a 40 bit key space:
@@ -21,40 +41,22 @@ $ rpass 60
 loltuk zahxok takrep
 ```
 
-Usage:
-```sh
-$ rpass -h
-usage: rpass [bitlen]
-```
-
-
-## Install on macOS
-```sh
-$ make && sudo make install
-```
-
-
-## Install on OpenBSD
-```sh
-$ make && doas make install
-```
-
-
 ## Key space requirements
-The 40 bit default relies on strong storage of the password, i.e. bcrypt(3) with
-sufficient rounds. If your password is going to be stored using a weaker
-cryptographic construct, you have to use a bigger key space. E.g. say you want
-to generate a password you can use for one year and is stored using sha256(1).
-Furthermore your adversary has $20,000.00 to spend. According to [8x Nvidia GTX
-1080 Hashcat Benchmarks] as of 2016 the adversary can try 230 billion hashes per
-second, this makes that you'll need a key space of 64 bit (hashes per second *
-3600 * 24 * 365 * 2).
+The 40 bit key space relies on the following requirements: the
+password is stored using [bcrypt(3)] with 2^10 rounds, it should only be
+secure for one year and the adversary has no more than $25,000.00 to
+spend on brute forcing the password (as of 2019). Additional details about this
+calculation can be found in the [manual].
+
+## Documentation
+
+All features are documented in the manual: [rpass(1)].
 
 ## License
 
 ISC
 
-Copyright (c) 2017 Tim Kuijsten
+Copyright (c) 2017, 2019 Tim Kuijsten
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -69,4 +71,7 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
-[8x Nvidia GTX 1080 Hashcat Benchmarks]: https://gist.github.com/epixoip/a83d38f412b4737e99bbef804a270c40
+[arc4random_uniform(3)]: https://man.openbsd.org/arc4random_uniform.3
+[bcrypt(3)]: https://man.openbsd.org/bcrypt.3
+[rpass(1)]: https://netsend.nl/rpass/rpass.1.html
+[manual]: https://netsend.nl/rpass/rpass.1.html

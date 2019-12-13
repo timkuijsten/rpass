@@ -20,6 +20,7 @@
 .Nd strong password generator for humans
 .Sh SYNOPSIS
 .Nm
+.Op Fl V
 .Op Ar bitlen
 .Sh DESCRIPTION
 .Nm
@@ -29,6 +30,8 @@ The passwords are case-insensitive so that there is no alternation between
 keyboards when typing the password and blanks can be inserted at arbitrary
 places to enhance visual representation.
 .Bl -tag -width Ds
+.It Fl V
+Print the version of rpass.
 .It Ar bitlen
 Use a key space of the specified bit length, defaults to 40.
 .El

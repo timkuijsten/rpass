@@ -20,6 +20,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#ifndef VERSION_MAJOR
+#define VERSION_MAJOR 0
+#define VERSION_MINOR 0
+#define VERSION_PATCH 0
+#endif
+
 /*
  * Dutch three letter "words" that are both visually and phonetically
  * unambiguous.
@@ -31,10 +37,17 @@ static const char third[] = "fhjklmnprstxz"; /* drop b, c, d, g, q, v, w,
 
 static const char *progname;
 
+void
+printversion(int d)
+{
+	dprintf(d, "%s v%d.%d.%d\n", progname, VERSION_MAJOR, VERSION_MINOR,
+	    VERSION_PATCH);
+}
+
 static void
 printusage(int d)
 {
-	dprintf(d, "usage: %s [bitlen]\n", progname);
+	dprintf(d, "usage: %s [-V] [bitlen]\n", progname);
 }
 
 int
@@ -48,8 +61,11 @@ main(int argc, char **argv)
 		exit(1);
 	}
 
-	while ((c = getopt(argc, argv, "h")) != -1)
+	while ((c = getopt(argc, argv, "Vh")) != -1)
 		switch (c) {
+		case 'V':
+			printversion(STDOUT_FILENO);
+			exit(0);
 		case 'h':
 			printusage(STDOUT_FILENO);
 			exit(0);

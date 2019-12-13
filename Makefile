@@ -13,8 +13,14 @@ INSTALL_DIR=  install -dm 755
 INSTALL_BIN=  install -m 555
 INSTALL_MAN=  install -m 444
 
+VERSION_MAJOR	= 0
+VERSION_MINOR	= 2
+VERSION_PATCH	= 0
+
 rpass: rpass.c
-	${CC} ${CFLAGS} rpass.c -o $@ -lm
+	${CC} ${CFLAGS} -DVERSION_MAJOR=${VERSION_MAJOR} \
+	    -DVERSION_MINOR=${VERSION_MINOR} -DVERSION_PATCH=${VERSION_PATCH} \
+	    rpass.c -o $@ -lm
 
 rpass.1.html:  rpass.1
 	mandoc -T html -O style=man.css rpass.1 > rpass.1.html

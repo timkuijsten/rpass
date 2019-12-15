@@ -25,10 +25,13 @@
 .Sh DESCRIPTION
 .Nm
 is a strong password generator for human beings.
-The generated passwords are both visually and phonetically unambiguous.
+The generated passwords are shorter than Diceware which suits them better for
+use on mobile devices, the command line or other environments where one has to
+frequently type the password.
 The passwords are case-insensitive so that there is no alternation between
-keyboards when typing the password and blanks can be inserted at arbitrary
-places to enhance visual representation.
+keyboards on insert.
+Blanks can be inserted at arbitrary places to enhance visual representation.
+Furthermore, the passwords are both visually and phonetically unambiguous.
 .Bl -tag -width Ds
 .It Fl V
 Print the version of rpass.
@@ -71,9 +74,9 @@ jultar ramlap rinwun bemvuh
 .Pp
 In order to calculate the required
 .Ar bitlen
-let's consider a scenario with the following requirements.
-The generated password will be used for at most half a year and is
-stored using PBKDF2-HMAC-SHA256 with a million iterations.
+let's consider a scenario with the following requirements: the generated
+password will be used for at most half a year and is stored using
+PBKDF2-HMAC-SHA256 with a million iterations.
 Furthermore the adversary has $25,000.00 to spend.
 According to
 .Dq 8x Nvidia GTX 1080 Ti Hashcat Benchmarks
@@ -81,12 +84,15 @@ as of 2019 the adversary can try 15 million hashes per second on
 PBKDF2-HMAC-SHA256 with a thousand iterations.
 This would be 15 thousand hashes per second on PBKDF2-HMAC-SHA256 with a million
 iterations.
-Hence a key space of 15,000 * 3,600 * 24 * 183 * 2 = 38.8 bit would be
-sufficient.
+Hence the required key space is 15,000 * 3,600 * 24 * 183 * 2 = 38.8 bits.
 .Sh SEE ALSO
 .Xr bcrypt 3 ,
 .Lk https://gist.github.com/epixoip/ace60d09981be09544fdd35005051505 8x Nvidia GTX 1080 Ti Hashcat Benchmarks
+.Lk http://world.std.com/~reinhold/diceware.html The Diceware Passphrase Home Page
 .Lk https://tools.ietf.org/html/rfc8018 PKCS #5: Password-Based Cryptography Specification
 .Sh AUTHORS
 .An -nosplit
 .An Tim Kuijsten
+.Sh BUGS
+The phonetic ambiguity of the current set of mnemonics depends on the spoken
+language and is currently optimized for the Dutch language.

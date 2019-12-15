@@ -3,18 +3,19 @@
 ## Strong password generator for humans
 
 Features:
-* Both visually and phonetically unambiguous
+* Short to type, ideal for use on mobile devices or the command line
 * No shift or alternate keyboard needed when typing
+* Both visually and phonetically unambiguous
 * Blanks can be inserted at arbitrary places to enhance visual representation
 
 ## Requirements
 
 Build requirements:
-* A C89 compiler
+* C89 compiler
 
 Run-time requirements:
-* Any POSIX-compliant system that supports [arc4random_uniform(3)]. I.e. OpenBSD
-  or macOS.
+* POSIX-compliant system
+* support for [arc4random_uniform(3)] (i.e. OpenBSD, FreeBSD, macOS)
 
 ## Install on OpenBSD
 ```sh
@@ -42,11 +43,14 @@ loltuk zahxok takrep
 ```
 
 ## Key space requirements
-The 40 bit key space relies on the following requirements: the
-password is stored using [bcrypt(3)] with 2^10 rounds, it should only be
-secure for one year and the adversary has no more than $25,000.00 to
-spend on brute forcing the password (as of 2019). Additional details about this
-calculation can be found in the [manual].
+
+The default key space of 40 bits relies on the following requirements:
+* the adversary has no more than $25,000.00 to spend on brute forcing the
+  password (as of 2019 according to [8x Nvidia GTX 1080 Ti Hashcat Benchmarks])
+* the password is stored using [bcrypt(3)] with 2^10 rounds
+* the password only has to be secure for one year
+
+Additional details about this calculation can be found in the [manual].
 
 ## Documentation
 
@@ -71,6 +75,7 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
+[8x Nvidia GTX 1080 Ti Hashcat Benchmarks]: https://gist.github.com/epixoip/ace60d09981be09544fdd35005051505
 [arc4random_uniform(3)]: https://man.openbsd.org/arc4random_uniform.3
 [bcrypt(3)]: https://man.openbsd.org/bcrypt.3
 [rpass(1)]: https://netsend.nl/rpass/rpass.1.html

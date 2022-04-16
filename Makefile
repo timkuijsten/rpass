@@ -15,12 +15,18 @@ INSTALL_MAN=  install -m 444
 
 VERSION_MAJOR	= 0
 VERSION_MINOR	= 2
-VERSION_PATCH	= 1
+VERSION_PATCH	= 2
+
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Linux)
+    LINUX_LIB = -lbsd
+endif
 
 rpass: rpass.c
 	${CC} ${CFLAGS} -DVERSION_MAJOR=${VERSION_MAJOR} \
 	    -DVERSION_MINOR=${VERSION_MINOR} -DVERSION_PATCH=${VERSION_PATCH} \
-	    rpass.c -o $@ -lm
+	    rpass.c -o $@ -lm ${LINUX_LIB}
 
 rpass.1.html:  rpass.1
 	mandoc -T html -O style=man.css rpass.1 > rpass.1.html

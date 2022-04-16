@@ -15,7 +15,7 @@ Build requirements:
 
 Run-time requirements:
 * POSIX-compliant system
-* support for [arc4random_uniform(3)] (i.e. OpenBSD, FreeBSD, macOS)
+* support for [arc4random_uniform(3)] (i.e. OpenBSD, FreeBSD, macOS, Linux)
 
 ## Install on OpenBSD
 ```sh
@@ -23,7 +23,7 @@ $ make
 $ doas make install
 ```
 
-## Install on macOS
+## Install on macOS, Linux, etc...
 ```sh
 $ make
 $ sudo make install

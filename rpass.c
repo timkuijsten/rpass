@@ -20,6 +20,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#ifdef __linux__
+#include <bsd/stdlib.h>
+#endif
+
 #ifndef VERSION_MAJOR
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 0
